@@ -1,0 +1,32 @@
+<mat-chip-list aria-label="Dog selection">
+  <mat-chip>
+    <img matChipAvatar src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    Dog one
+  </mat-chip>
+  <mat-chip color="primary">
+    <img matChipAvatar src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    Dog two
+  </mat-chip>
+  <mat-chip color="accent">
+    <img matChipAvatar src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu"/>
+    Dog three
+  </mat-chip>
+</mat-chip-list>
+<mat-spinner></mat-spinner>
+<mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+  <mat-label>Favorite Fruits</mat-label>
+  <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+      {{fruit.name}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input placeholder="New fruit..."
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>

@@ -1,0 +1,29 @@
+<mat-card class="card" [ngClass]="{'true': correct === true, 'false' : correct === false }">
+	<mat-card-subtitle>Difficulty {{ question.value }}</mat-card-subtitle>
+	<ng-container *ngIf="!answerGif; else Gif">
+		<mat-card-content>
+			<p>{{ question.question }}</p>
+		</mat-card-content>
+    <div style="flex-grow: 1;"></div>
+    <mat-form-field class="field" appearance="fill">
+      <mat-label>Answer</mat-label>
+      <input matInput [(ngModel)]="answer" />
+      <button *ngIf="answer" matSuffix mat-icon-button aria-label="Clear" (click)="answer = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-divider inset></mat-divider>
+		<mat-card-actions>
+			<button mat-flat-button color="primary" (click)="processAnswer()" [matTooltip]="question.answer">Send</button>
+		</mat-card-actions>
+	</ng-container>
+	<mat-card-footer *ngIf="loadingGif">
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+	</mat-card-footer>
+</mat-card>
+
+<ng-template #Gif>
+  <div class="img-container">
+    <img mat-card-image [src]="answerGif" />
+  </div>
+</ng-template>

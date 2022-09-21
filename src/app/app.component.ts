@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'PWA';
+  constructor(
+    private swPush: SwPush) {
+    }
 }

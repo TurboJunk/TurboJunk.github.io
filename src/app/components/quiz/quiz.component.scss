@@ -1,0 +1,11 @@
+.quizes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+@media screen and (max-width: 599px) {
+  .quizes {
+    grid-template-columns: 1fr;
+  }
+}
