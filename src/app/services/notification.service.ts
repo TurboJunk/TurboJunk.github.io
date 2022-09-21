@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
@@ -5,10 +6,34 @@ import { Observable } from "rxjs";
 	providedIn: "root",
 })
 export class NotificationService {
-	public permission: Permission;
-	constructor() {
-		this.permission = this.isSupported() ? "default" : "denied";
+	constructor(private _http: HttpClient) {
+    this.permission = this.isSupported() ? "default" : "denied";
+  }
+	fcmkey = "";
+
+	send(str: string): void {
+		this._http
+			.post<string>(
+				"https://fcm.googleapis.com/fcm/send",
+				{
+					to: this.fcmkey,
+					notification: {
+						body: str,
+						subtitle: str,
+						title: str,
+					},
+				},
+				{
+					headers: {
+						Authorization:
+							"key=AAAAVAW5oLU:APA91bGcK3DU1ADkFlBFnkS4ft-qoirQcKRgZk33rYLefOwN67I62thTS6kxjNRHtkcq0oxtAuYcFBRQcBWtwKjggPCbgGg8jeKI2k76KjbWfUcMFFbI5PfYHGEzbVB8ZpA-AJVWrn2B",
+					},
+				}
+			)
+			.subscribe();
 	}
+
+	public permission: Permission;
 	public isSupported(): boolean {
 		return "Notification" in window;
 	}

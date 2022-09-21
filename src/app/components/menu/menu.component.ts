@@ -20,7 +20,6 @@ export class MenuComponent implements OnInit {
 
 	constructor(private breakpointObserver: BreakpointObserver, private _notificationService: NotificationService) {
 		document.body.classList.add(this.theme);
-		this._notificationService.requestPermission();
 	}
 	ngOnInit(): void {
 		if (this.breakpointObserver.isMatched("(prefers-color-scheme: dark)")) {
@@ -36,11 +35,6 @@ export class MenuComponent implements OnInit {
 	}
 
 	notify() {
-		let data: any[] = [];
-		data.push({
-			title: this.pushMessage,
-			alertContent: "Content " + this.pushMessage,
-		});
-		this._notificationService.generateNotification(data);
+		this._notificationService.send(this.pushMessage);
 	}
 }

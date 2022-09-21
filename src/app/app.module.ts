@@ -63,7 +63,7 @@ import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 			enabled: environment.production,
 			// Register the ServiceWorker as soon as the application is stable
 			// or after 30 seconds (whichever comes first).
-			registrationStrategy: "registerWhenStable:30000",
+			registrationStrategy: "registerWhenStable:1000",
 		}),
 		LayoutModule,
 		MatToolbarModule,

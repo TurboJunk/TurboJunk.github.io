@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1663778474841,
+  "timestamp": 1663794321630,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -14,7 +14,7 @@
         "/favicon.ico",
         "/firebase-messaging-sw.js",
         "/index.html",
-        "/main.77f2781561f21775.js",
+        "/main.707d515f8ab33185.js",
         "/manifest.webmanifest",
         "/polyfills.213108041e335b6e.js",
         "/runtime.3c9e51f3480d07a9.js",
@@ -22,7 +22,8 @@
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css2\\?family=Nunito:wght@400;700&display=swap",
-        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons"
+        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons",
+        "https:\\/\\/material\\.angular\\.io\\/assets\\/img\\/examples\\/shiba1\\.jpg"
       ]
     },
     {
@@ -72,9 +73,9 @@
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "/firebase-messaging-sw.js": "2ebebda12ea6e06b232df8ed454c499a9120ac49",
-    "/index.html": "e29c90be8c1ca831d6e6e37f111617618eb1feb8",
-    "/main.77f2781561f21775.js": "c3d664caede50cd3dd2e9ee922631433978b173f",
-    "/manifest.webmanifest": "a9e89f4ecfced86818a52c215cda398026c34ee5",
+    "/index.html": "06599a8905d485059b4a1960a60d35070829f284",
+    "/main.707d515f8ab33185.js": "bdc6ad2eba04e6fd5dc9e5e5cc8cc0d0427583dc",
+    "/manifest.webmanifest": "16bb24cc828a93118d53f247021e894849581985",
     "/polyfills.213108041e335b6e.js": "368cb30753f5744fa8e0773c1f35bd998b300af5",
     "/runtime.3c9e51f3480d07a9.js": "2d3ce152335575754f242299a232e9bf773ed11f",
     "/styles.a07741ea6092e870.css": "116baeaaf197abf8d64835b2d5ff7f6f8d8becc0"
