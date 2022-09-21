@@ -8,7 +8,7 @@ import { GifAnswer, Question } from "../models/question";
 	providedIn: "root",
 })
 export class QuizService {
-	private readonly quizUrl = "http://jservice.io/api/random";
+	private readonly quizUrl = "https://jservice.io/api/random";
 	private readonly gifUrl = "https://yesno.wtf/api";
 
 	private _questions = new Subject<Question[]>();

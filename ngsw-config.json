@@ -35,7 +35,7 @@
     {
       "name": "api-performance",
       "urls": [
-        "http://jservice.io/api/random**"
+        "https://jservice.io/api/random**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
