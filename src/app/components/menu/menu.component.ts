@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
 		this._notificationService.requestPermission();
 	}
 	ngOnInit(): void {
-		if (this.breakpointObserver.isMatched("prefers-color-scheme: dark")) {
+		if (this.breakpointObserver.isMatched("(prefers-color-scheme: dark)")) {
 			this.theme = "purple-green";
 			this.themeChange();
 		}
