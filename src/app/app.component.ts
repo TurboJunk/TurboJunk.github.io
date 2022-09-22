@@ -1,5 +1,6 @@
 import { Component, OnInit, Optional } from "@angular/core";
 import { Messaging, getToken, onMessage } from "@angular/fire/messaging";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { EMPTY, from, Observable } from "rxjs";
 import { share, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -15,7 +16,11 @@ export class AppComponent {
 	message$: Observable<any> = EMPTY;
 	showRequest = false;
 
-	constructor(@Optional() messaging: Messaging, private _notificationService: NotificationService) {
+	constructor(
+		@Optional() messaging: Messaging,
+		notificationService: NotificationService,
+		private _snackBar: MatSnackBar
+	) {
 		console.log("messaging", messaging);
 		if (messaging) {
 			navigator.serviceWorker
@@ -26,7 +31,7 @@ export class AppComponent {
 						vapidKey: environment.firebase.vapidKey,
 					}).then(token => {
 						console.log("FCM", { token });
-						_notificationService.fcmkey = token;
+						notificationService.fcmkey = token;
 					})
 				);
 			// this.token$ = from(
@@ -48,12 +53,7 @@ export class AppComponent {
 			this.message$ = new Observable(sub => onMessage(messaging, it => sub.next(it))).pipe(
 				tap(token => console.log("FCM", { token }))
 			);
+			this.message$.subscribe(x => this._snackBar.open(x.notification.body, undefined, { duration: 3000 }));
 		}
-	}
-
-	ngOnInit(): void {}
-
-	request() {
-		Notification.requestPermission();
 	}
 }

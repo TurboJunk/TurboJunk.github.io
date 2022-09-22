@@ -12,7 +12,7 @@ import { NotificationService } from "src/app/services/notification.service";
 export class MenuComponent implements OnInit {
 	currentTheme = "indigo-pink";
 	theme = "indigo-pink";
-	pushMessage = "Test push notification";
+	pushMessage = "Test notification";
 	isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).pipe(
 		map(result => result.matches),
 		shareReplay()

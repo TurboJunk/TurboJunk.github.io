@@ -38,6 +38,7 @@ import { QuizComponent } from "./components/quiz/quiz.component";
 import { QuestionComponent } from "./components/question/question.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 
@@ -88,6 +89,7 @@ import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 		MatProgressBarModule,
 		MatProgressSpinnerModule,
 		MatTooltipModule,
+    MatSnackBarModule,
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
 		provideMessaging(() => getMessaging()),
 	],
