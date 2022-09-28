@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { LayoutModule } from "@angular/cdk/layout";
@@ -39,8 +39,13 @@ import { QuestionComponent } from "./components/question/question.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { provideMessaging, getMessaging } from "@angular/fire/messaging";
+import { PromptComponent } from "./components/prompt/prompt.component";
+import { PwaService } from "./services/pwa.service";
+
+const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
 @NgModule({
 	declarations: [
@@ -54,6 +59,7 @@ import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 		OtherComponent,
 		QuizComponent,
 		QuestionComponent,
+		PromptComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -89,11 +95,12 @@ import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 		MatProgressBarModule,
 		MatProgressSpinnerModule,
 		MatTooltipModule,
-    MatSnackBarModule,
+		MatSnackBarModule,
+		MatBottomSheetModule,
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
 		provideMessaging(() => getMessaging()),
 	],
-	providers: [],
+	providers: [{ provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true }],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
