@@ -2,10 +2,10 @@ import { Component, OnInit, Optional } from "@angular/core";
 import { Messaging, getToken, onMessage } from "@angular/fire/messaging";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { EMPTY, from, Observable } from "rxjs";
-import { share, tap } from "rxjs/operators";
+import { filter, share, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { NotificationService } from "./services/notification.service";
-import { SwUpdate } from "@angular/service-worker";
+import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
 
 @Component({
 	selector: "app-root",
@@ -26,10 +26,12 @@ export class AppComponent {
 
 	ngOnInit() {
 		if (this._swUpdate.isEnabled) {
-			this._swUpdate.versionUpdates.subscribe(() => {
-				const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 2000 });
-				ref.onAction().subscribe(() => this._swUpdate.activateUpdate());
-			});
+			this._swUpdate.versionUpdates
+				.pipe(filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY"))
+				.subscribe(() => {
+					const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 2000 });
+					ref.onAction().subscribe(() => document.location.reload());
+				});
 		}
 		console.log("messaging", this._messaging);
 		if (this._messaging) {
@@ -44,22 +46,6 @@ export class AppComponent {
 						this._notificationService.fcmkey = token;
 					})
 				);
-			// this.token$ = from(
-			// 	navigator.serviceWorker
-			// 		.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
-			// 		.then(serviceWorkerRegistration =>
-			// 			getToken(messaging, {
-			// 				serviceWorkerRegistration,
-			// 				vapidKey: environment.firebase.vapidKey,
-			// 			})
-			// 		)
-			// ).pipe(
-			// 	tap(token => {
-			// 		console.log("FCM", { token });
-			// 		_notificationService.fcmkey = token;
-			// 	}),
-			// 	share()
-			// );
 			this.message$ = new Observable(sub => onMessage(this._messaging, it => sub.next(it))).pipe(
 				tap(token => console.log("FCM", { token }))
 			);
