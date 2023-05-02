@@ -1,5 +1,5 @@
 import { Component, OnInit, Optional } from "@angular/core";
-import { Messaging, getToken, onMessage } from "@angular/fire/messaging";
+import { MessagePayload, Messaging, getToken, onMessage } from "@angular/fire/messaging";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { EMPTY, from, Observable } from "rxjs";
 import { filter, share, tap } from "rxjs/operators";
@@ -13,8 +13,8 @@ import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
 	styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-	token$: Observable<any> = EMPTY;
-	message$: Observable<any> = EMPTY;
+	token$: Observable<string> = EMPTY;
+	message$: Observable<MessagePayload> = EMPTY;
 	showRequest = false;
 
 	constructor(
@@ -22,34 +22,30 @@ export class AppComponent {
 		private _notificationService: NotificationService,
 		private _snackBar: MatSnackBar,
 		private _swUpdate: SwUpdate
-	) {}
+	) {
+		navigator.serviceWorker
+			.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
+			.then(serviceWorkerRegistration =>
+				getToken(this._messaging, {
+					serviceWorkerRegistration,
+					vapidKey: environment.firebase.vapidKey,
+				}).then(token => {
+					console.log("FCM", { token });
+					this._notificationService.fcmkey = token;
+				})
+			);
+	}
 
 	ngOnInit() {
 		if (this._swUpdate.isEnabled) {
 			this._swUpdate.versionUpdates
 				.pipe(filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY"))
 				.subscribe(() => {
-					const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 2000 });
+					const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 3000 });
 					ref.onAction().subscribe(() => document.location.reload());
 				});
 		}
-		console.log("messaging", this._messaging);
-		if (this._messaging) {
-			navigator.serviceWorker
-				.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
-				.then(serviceWorkerRegistration =>
-					getToken(this._messaging, {
-						serviceWorkerRegistration,
-						vapidKey: environment.firebase.vapidKey,
-					}).then(token => {
-						console.log("FCM", { token });
-						this._notificationService.fcmkey = token;
-					})
-				);
-			this.message$ = new Observable(sub => onMessage(this._messaging, it => sub.next(it))).pipe(
-				tap(token => console.log("FCM", { token }))
-			);
-			this.message$.subscribe(x => this._snackBar.open(x.notification.body, undefined, { duration: 3000 }));
-		}
+		this.message$ = new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it)));
+		this.message$.subscribe(x => this._notificationService.generateNotification(x));
 	}
 }

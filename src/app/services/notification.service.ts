@@ -1,26 +1,32 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MessagePayload } from "@angular/fire/messaging";
 import { Observable } from "rxjs";
 
 @Injectable({
 	providedIn: "root",
 })
 export class NotificationService {
-	constructor(private _http: HttpClient) {
-		this.permission = this.isSupported() ? "default" : "denied";
-	}
 	fcmkey = "";
+	permission: Permission;
+	isSupported() {
+		return "Notification" in window;
+	}
+
+	constructor(private _http: HttpClient) {
+		this.permission = this.isSupported() ? Notification.permission : "denied";
+	}
 
 	send(str: string): void {
 		this._http
-			.post<string>(
+			.post<any>(
 				"https://fcm.googleapis.com/fcm/send",
 				{
 					to: this.fcmkey,
 					notification: {
-						body: str,
-						subtitle: str,
 						title: str,
+						body: str,
+						image: "https://material.angular.io/assets/img/examples/shiba1.jpg",
 					},
 				},
 				{
@@ -30,64 +36,44 @@ export class NotificationService {
 					},
 				}
 			)
-			.subscribe();
+			.subscribe(x => {
+				console.log("FCM Send responce");
+				console.log(x);
+			});
 	}
 
-	public permission: Permission;
-	public isSupported(): boolean {
-		return "Notification" in window;
-	}
-	requestPermission(): void {
-		let self = this;
+	requestPermission() {
 		if ("Notification" in window) {
-			Notification.requestPermission(function (status) {
-				return (self.permission = status);
-			});
+			Notification.requestPermission((status: any) => (this.permission = status));
 		}
 	}
+
 	create(title: string, options?: PushNotification): any {
-		let self = this;
-		return new Observable(function (obs) {
+		return new Observable((obs: any) => {
 			if (!("Notification" in window)) {
-				console.log("Notifications are not available in this environment");
+				obs.error("Notifications are not available in this environment");
 				obs.complete();
 			}
-			if (self.permission !== "granted") {
-				console.log("The user hasn't granted you permission to send push notifications");
+
+			if (this.permission !== "granted") {
+				obs.error(`The user hasn't granted you permission to send push notifications`);
 				obs.complete();
 			}
-			let _notify = new Notification(title, options);
-			_notify.onshow = function (e) {
-				return obs.next({
-					notification: _notify,
-					event: e,
-				});
-			};
-			_notify.onclick = function (e) {
-				return obs.next({
-					notification: _notify,
-					event: e,
-				});
-			};
-			_notify.onerror = function (e) {
-				return obs.error({
-					notification: _notify,
-					event: e,
-				});
-			};
-			_notify.onclose = function () {
-				return obs.complete();
-			};
+
+			const n = new Notification(title, options);
+
+			n.onshow = (e: any) => obs.next({ notification: n, event: e });
+			n.onclick = (e: any) => obs.next({ notification: n, event: e });
+			n.onerror = (e: any) => obs.error({ notification: n, event: e });
+			n.onclose = () => obs.complete();
 		});
 	}
-	generateNotification(source: any[]): void {
-		source.forEach(item => {
-			let options = {
-				body: item.alertContent,
-				icon: "https://material.angular.io/assets/img/examples/shiba1.jpg",
-			};
-			this.create(item.title, options).subscribe();
-		});
+
+	generateNotification(source: MessagePayload): void {
+		this.create(source.notification!.title!, {
+			body: source.notification?.body,
+			icon: source.notification?.image,
+		}).subscribe();
 	}
 }
 export declare type Permission = "denied" | "granted" | "default";

@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 import { NotificationService } from "src/app/services/notification.service";
+import { PwaService } from "src/app/services/pwa.service";
 
 @Component({
 	selector: "app-menu",
@@ -18,7 +19,7 @@ export class MenuComponent implements OnInit {
 		shareReplay()
 	);
 
-	constructor(private breakpointObserver: BreakpointObserver, private _notificationService: NotificationService) {
+	constructor(private breakpointObserver: BreakpointObserver, private _notificationService: NotificationService, private _pwaService:PwaService) {
 		document.body.classList.add(this.theme);
 	}
 	ngOnInit(): void {
@@ -34,7 +35,11 @@ export class MenuComponent implements OnInit {
 		document.body.classList.add(this.theme);
 	}
 
-	notify() {
+	notify(): void {
 		this._notificationService.send(this.pushMessage);
 	}
+
+  install(): void {
+    this._pwaService.initPwaPrompt();
+  }
 }
