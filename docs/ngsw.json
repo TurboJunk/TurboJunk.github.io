@@ -1,6 +1,9 @@
 {
   "configVersion": 1,
-  "timestamp": 1663835181154,
+  "timestamp": 1683034932709,
+  "appData": {
+    "version": "0.1.0"
+  },
   "index": "/index.html",
   "assetGroups": [
     {
@@ -14,7 +17,7 @@
         "/favicon.ico",
         "/firebase-messaging-sw.js",
         "/index.html",
-        "/main.27292c2c81f99f38.js",
+        "/main.bf77159c5e6c0d63.js",
         "/manifest.webmanifest",
         "/polyfills.213108041e335b6e.js",
         "/runtime.3c9e51f3480d07a9.js",
@@ -41,7 +44,9 @@
         "/assets/icons/icon-384x384.png",
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
-        "/assets/icons/icon-96x96.png"
+        "/assets/icons/icon-96x96.png",
+        "/assets/ios-add-btn.png",
+        "/assets/ios-menu-btn.png"
       ],
       "patterns": []
     }
@@ -71,11 +76,13 @@
     "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/ios-add-btn.png": "b04f8aff472620d61612217ef4b2cd94f07b914b",
+    "/assets/ios-menu-btn.png": "85935a3142fbdca3ebd69db254792588e3c48b13",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "/firebase-messaging-sw.js": "2ebebda12ea6e06b232df8ed454c499a9120ac49",
-    "/index.html": "3e2b2f720a703bff8223aed42871916b0c2e7c31",
-    "/main.27292c2c81f99f38.js": "e22b03473aadb53ca8d598b33f755613d08219a1",
-    "/manifest.webmanifest": "16bb24cc828a93118d53f247021e894849581985",
+    "/index.html": "f0069736d702fbe7a53f45b1f85530010fde6d54",
+    "/main.bf77159c5e6c0d63.js": "428b9b1ab5abf9284b96677fe8a7955ae1b0fbe0",
+    "/manifest.webmanifest": "311c1a87673dbfcb723c4d8e541c8d3525e375e8",
     "/polyfills.213108041e335b6e.js": "368cb30753f5744fa8e0773c1f35bd998b300af5",
     "/runtime.3c9e51f3480d07a9.js": "2d3ce152335575754f242299a232e9bf773ed11f",
     "/styles.a07741ea6092e870.css": "116baeaaf197abf8d64835b2d5ff7f6f8d8becc0"

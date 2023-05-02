@@ -7,8 +7,8 @@ import { Observable } from "rxjs";
 })
 export class NotificationService {
 	constructor(private _http: HttpClient) {
-    this.permission = this.isSupported() ? "default" : "denied";
-  }
+		this.permission = this.isSupported() ? "default" : "denied";
+	}
 	fcmkey = "";
 
 	send(str: string): void {

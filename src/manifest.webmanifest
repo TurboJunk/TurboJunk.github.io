@@ -4,9 +4,11 @@
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
+  "orientation": "portrait",
   "scope": "./",
   "start_url": "./?utm_source=pwa_a2hs",
   "gcm_sender_id": "103953800507",
+  "description": "PWA is a dummy Angular app which demonstrates a PWA's behaviour on different platforms.",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

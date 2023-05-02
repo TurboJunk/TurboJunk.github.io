@@ -5,6 +5,7 @@ import { EMPTY, from, Observable } from "rxjs";
 import { share, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { NotificationService } from "./services/notification.service";
+import { SwUpdate } from "@angular/service-worker";
 
 @Component({
 	selector: "app-root",
@@ -17,21 +18,30 @@ export class AppComponent {
 	showRequest = false;
 
 	constructor(
-		@Optional() messaging: Messaging,
-		notificationService: NotificationService,
-		private _snackBar: MatSnackBar
-	) {
-		console.log("messaging", messaging);
-		if (messaging) {
+		private _messaging: Messaging,
+		private _notificationService: NotificationService,
+		private _snackBar: MatSnackBar,
+		private _swUpdate: SwUpdate
+	) {}
+
+	ngOnInit() {
+		if (this._swUpdate.isEnabled) {
+			this._swUpdate.versionUpdates.subscribe(() => {
+				const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 2000 });
+				ref.onAction().subscribe(() => this._swUpdate.activateUpdate());
+			});
+		}
+		console.log("messaging", this._messaging);
+		if (this._messaging) {
 			navigator.serviceWorker
 				.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
 				.then(serviceWorkerRegistration =>
-					getToken(messaging, {
+					getToken(this._messaging, {
 						serviceWorkerRegistration,
 						vapidKey: environment.firebase.vapidKey,
 					}).then(token => {
 						console.log("FCM", { token });
-						notificationService.fcmkey = token;
+						this._notificationService.fcmkey = token;
 					})
 				);
 			// this.token$ = from(
@@ -50,7 +60,7 @@ export class AppComponent {
 			// 	}),
 			// 	share()
 			// );
-			this.message$ = new Observable(sub => onMessage(messaging, it => sub.next(it))).pipe(
+			this.message$ = new Observable(sub => onMessage(this._messaging, it => sub.next(it))).pipe(
 				tap(token => console.log("FCM", { token }))
 			);
 			this.message$.subscribe(x => this._snackBar.open(x.notification.body, undefined, { duration: 3000 }));

@@ -19,13 +19,13 @@ export class PwaService {
   ) { }
 
   public initPwaPrompt() {
-    if (this._platform.ANDROID) {
-      window.addEventListener('beforeinstallprompt', (event: any) => {
-        event.preventDefault();
-        this.promptEvent = event;
-        this.openPromptComponent('android');
-      });
-    }
+    // if (this._platform.ANDROID) {
+    //   window.addEventListener('beforeinstallprompt', (event: any) => {
+    //     event.preventDefault();
+    //     this.promptEvent = event;
+    //     this.openPromptComponent('android');
+    //   });
+    // }
     if (this._platform.IOS) {
       const isInStandaloneMode = this._breakpointObserver.isMatched('(display-mode: standalone)');
       if (!isInStandaloneMode) {
