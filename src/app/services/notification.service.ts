@@ -62,11 +62,15 @@ export class NotificationService {
 		});
 	}
 
-	generateNotification(source: MessagePayload): void {
-		this.create(source.notification!.title!, {
+	generateNotification(sw: ServiceWorkerRegistration, source: MessagePayload): void {
+		sw.showNotification(source.notification!.title!, {
 			body: source.notification?.body,
 			icon: source.notification?.image,
-		}).subscribe();
+		})
+		// this.create(source.notification!.title!, {
+		// 	body: source.notification?.body,
+		// 	icon: source.notification?.image,
+		// }).subscribe();
 	}
 }
 export declare type Permission = "denied" | "granted" | "default";

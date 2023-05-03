@@ -27,10 +27,10 @@ export class FCMService {
 					console.log("FCM", { token });
 					this.fcmkey = token;
 				});
+				new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it))).subscribe(x =>
+					this._notificationService.generateNotification(serviceWorkerRegistration, x)
+				);
 			});
-		new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it))).subscribe(x =>
-			this._notificationService.generateNotification(x)
-		);
 	}
 
 	send(str: string): void {
