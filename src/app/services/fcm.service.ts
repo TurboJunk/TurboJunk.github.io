@@ -1,9 +1,8 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { MessagePayload, Messaging, getToken, onMessage } from "@angular/fire/messaging";
-import { Observable } from "rxjs";
+import { Messaging, getToken, onMessage } from "@angular/fire/messaging";
 import { environment } from "src/environments/environment";
 import { NotificationService } from "./notification.service";
-import { HttpClient } from "@angular/common/http";
 
 @Injectable({
 	providedIn: "root",
@@ -16,21 +15,22 @@ export class FCMService {
 		private _notificationService: NotificationService,
 		private _http: HttpClient
 	) {
-		navigator.serviceWorker
-			.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
-			.then(serviceWorkerRegistration => {
-				_notificationService.requestPermission();
-				getToken(this._messaging, {
-					serviceWorkerRegistration,
-					vapidKey: environment.firebase.vapidKey,
-				}).then(token => {
-					console.log("FCM", { token });
-					this.fcmkey = token;
+		_notificationService.requestPermission().then(x => {
+			console.log("Notification permission", x);
+			if (x !== "granted") return;
+			navigator.serviceWorker
+				.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
+				.then(serviceWorkerRegistration => {
+					getToken(this._messaging, {
+						serviceWorkerRegistration,
+						vapidKey: environment.firebase.vapidKey,
+					}).then(token => {
+						console.log("FCM", { token });
+						this.fcmkey = token;
+					});
+					onMessage(this._messaging, x => this._notificationService.generateNotification(serviceWorkerRegistration, x));
 				});
-				new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it))).subscribe(x =>
-					this._notificationService.generateNotification(serviceWorkerRegistration, x)
-				);
-			});
+		});
 	}
 
 	send(str: string): void {

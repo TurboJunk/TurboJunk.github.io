@@ -23,7 +23,7 @@ isSupported().then(isSupported => {
     const messaging = getMessaging(app);
 
     onBackgroundMessage(messaging, ({ notification: { title, body, image } }) => {
-      self.registration.showNotification(title, { body, icon: image || 'https://material.angular.io/assets/img/examples/shiba1.jpg' });
+      self.registration.showNotification(title, { body, icon: image });
     });
 
   }

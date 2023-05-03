@@ -16,13 +16,17 @@ export class MenuComponent {
 	currentTheme = this._themeService.currentTheme;
 	themes = this._themeService.themes;
 	pushMessage = "Test notification";
-	isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).pipe(
+	isHandset$: Observable<boolean> = this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).pipe(
+		map(result => result.matches),
+		shareReplay()
+	);
+	isInStandaloneMode$: Observable<boolean> = this._breakpointObserver.observe('(display-mode: standalone)').pipe(
 		map(result => result.matches),
 		shareReplay()
 	);
 
 	constructor(
-		private breakpointObserver: BreakpointObserver,
+		private _breakpointObserver: BreakpointObserver,
 		private _FCMService: FCMService,
 		private _pwaService: PwaService,
 		private _themeService: ThemeService
