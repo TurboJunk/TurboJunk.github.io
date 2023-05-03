@@ -45,7 +45,7 @@ import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 import { PromptComponent } from "./components/prompt/prompt.component";
 import { PwaService } from "./services/pwa.service";
 
-//const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
+const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
 @NgModule({
 	declarations: [
@@ -100,7 +100,7 @@ import { PwaService } from "./services/pwa.service";
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
 		provideMessaging(() => getMessaging()),
 	],
-	//providers: [{ provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true }],
+	providers: [{ provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true }],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

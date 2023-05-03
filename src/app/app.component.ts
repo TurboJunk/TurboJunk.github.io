@@ -2,7 +2,7 @@ import { Component, OnInit, Optional } from "@angular/core";
 import { MessagePayload, Messaging, getToken, onMessage } from "@angular/fire/messaging";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { EMPTY, from, Observable } from "rxjs";
-import { filter, share, tap } from "rxjs/operators";
+import { distinctUntilChanged, filter, share, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { NotificationService } from "./services/notification.service";
 import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
@@ -39,11 +39,16 @@ export class AppComponent {
 	ngOnInit() {
 		if (this._swUpdate.isEnabled) {
 			this._swUpdate.versionUpdates
-				.pipe(filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY"))
-				.subscribe(() => {
-					const ref = this._snackBar.open("Newer version of the app is available!", "UPDATE", { duration: 3000 });
-					ref.onAction().subscribe(() => document.location.reload());
-				});
+				.pipe(
+					filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY"),
+					distinctUntilChanged()
+				)
+				.subscribe(() =>
+					this._snackBar
+						.open("Newer version of the app is available!", "UPDATE", { duration: 3000 })
+						.onAction()
+						.subscribe(() => document.location.reload())
+				);
 		}
 		this.message$ = new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it)));
 		this.message$.subscribe(x => this._notificationService.generateNotification(x));

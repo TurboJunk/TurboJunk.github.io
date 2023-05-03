@@ -17,20 +17,16 @@ export class PwaService {
 		private _breakpointObserver: BreakpointObserver
 	) {}
 
-	public initPwaPrompt() {
-		if (this._platform.ANDROID) {
-			window.addEventListener("beforeinstallprompt", (event: any) => {
-				event.preventDefault();
-				this.promptEvent = event;
-				this.openPromptComponent("android");
-			});
-		}
-		if (this._platform.IOS) {
-			const isInStandaloneMode = this._breakpointObserver.isMatched("(display-mode: standalone)");
-			if (!isInStandaloneMode) {
-				this.openPromptComponent("ios");
-			}
-		}
+	initPwaPrompt() {
+		window.addEventListener("beforeinstallprompt", (event: any) => {
+			this.promptEvent = event;
+		});
+	}
+
+	openPromt() {
+		if (this._platform.ANDROID || this._platform.isBrowser) this.openPromptComponent("android");
+
+		if (this._platform.IOS) this.openPromptComponent("ios");
 	}
 
 	private openPromptComponent(mobileType: "ios" | "android") {

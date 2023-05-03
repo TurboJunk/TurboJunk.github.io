@@ -43,38 +43,17 @@
 				<mat-icon>format_color_fill</mat-icon>
 			</button>
 		</mat-toolbar>
-    <div style="padding: 32px;">
-      <router-outlet></router-outlet>
-    </div>
+		<div style="padding: 32px">
+			<router-outlet></router-outlet>
+		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>
 
 <mat-menu #menu="matMenu">
-	<button mat-menu-item>
-		<mat-radio-group [(ngModel)]="theme" (change)="themeChange()">
-			<mat-radio-button value="deeppurple-amber">
-				<span>Deep Purple &amp; Amber</span>
-			</mat-radio-button>
-		</mat-radio-group>
-	</button>
-	<button mat-menu-item>
-		<mat-radio-group [(ngModel)]="theme" (change)="themeChange()">
-			<mat-radio-button value="indigo-pink">
-				<span>Indigo &amp; Pink</span>
-			</mat-radio-button>
-		</mat-radio-group>
-	</button>
-	<button mat-menu-item>
-		<mat-radio-group [(ngModel)]="theme" (change)="themeChange()">
-			<mat-radio-button value="pink-bluegrey">
-				<span>Pink &amp; Blue-grey</span>
-			</mat-radio-button>
-		</mat-radio-group>
-	</button>
-	<button mat-menu-item>
-		<mat-radio-group [(ngModel)]="theme" (change)="themeChange()">
-			<mat-radio-button value="purple-green">
-				<span>Purple &amp; Green</span>
+	<button mat-menu-item *ngFor="let theme of themes">
+		<mat-radio-group [(ngModel)]="currentTheme" (change)="themeChange(theme)">
+			<mat-radio-button [value]="theme">
+				<span>{{ theme.name }}</span>
 			</mat-radio-button>
 		</mat-radio-group>
 	</button>
