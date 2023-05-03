@@ -18,16 +18,16 @@ export class FCMService {
 	) {
 		navigator.serviceWorker
 			.register("firebase-messaging-sw.js", { type: "module", scope: "__" })
-			.then(serviceWorkerRegistration =>
+			.then(serviceWorkerRegistration => {
+				_notificationService.requestPermission();
 				getToken(this._messaging, {
 					serviceWorkerRegistration,
 					vapidKey: environment.firebase.vapidKey,
 				}).then(token => {
 					console.log("FCM", { token });
 					this.fcmkey = token;
-					Notification.requestPermission();
-				})
-			);
+				});
+			});
 		new Observable<MessagePayload>(sub => onMessage(this._messaging, it => sub.next(it))).subscribe(x =>
 			this._notificationService.generateNotification(x)
 		);
@@ -53,8 +53,7 @@ export class FCMService {
 				}
 			)
 			.subscribe(x => {
-				console.log("FCM Send response");
-				console.log(x);
+				console.log("FCM Send response", x);
 			});
 	}
 }
