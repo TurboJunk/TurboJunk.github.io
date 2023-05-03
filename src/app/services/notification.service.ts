@@ -1,45 +1,38 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MessagePayload } from "@angular/fire/messaging";
+import { SwPush } from "@angular/service-worker";
 import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
 
 @Injectable({
 	providedIn: "root",
 })
 export class NotificationService {
-	fcmkey = "";
+	//constructor(private _swPush: SwPush) {}
+
+	// subscribeToNotifications() {
+
+    //     this._swPush.requestSubscription({
+    //         serverPublicKey: environment.firebase.vapidKey
+    //     })
+    //     .then(sub => this.test(sub))
+    //     .catch(err => console.error("Could not subscribe to notifications", err));
+    // }
+
+	// test(sub: PushSubscription): void {
+	// 	console.log(sub)
+	// }
+
+	// Notifications API
+
 	permission: Permission;
 	isSupported() {
 		return "Notification" in window;
 	}
 
-	constructor(private _http: HttpClient) {
+	constructor() {
 		this.permission = this.isSupported() ? Notification.permission : "denied";
-	}
-
-	send(str: string): void {
-		this._http
-			.post<any>(
-				"https://fcm.googleapis.com/fcm/send",
-				{
-					to: this.fcmkey,
-					notification: {
-						title: str,
-						body: str,
-						image: "https://material.angular.io/assets/img/examples/shiba1.jpg",
-					},
-				},
-				{
-					headers: {
-						Authorization:
-							"key=AAAAVAW5oLU:APA91bGcK3DU1ADkFlBFnkS4ft-qoirQcKRgZk33rYLefOwN67I62thTS6kxjNRHtkcq0oxtAuYcFBRQcBWtwKjggPCbgGg8jeKI2k76KjbWfUcMFFbI5PfYHGEzbVB8ZpA-AJVWrn2B",
-					},
-				}
-			)
-			.subscribe(x => {
-				console.log("FCM Send responce");
-				console.log(x);
-			});
 	}
 
 	requestPermission() {

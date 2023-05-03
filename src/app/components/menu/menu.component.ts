@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { Meta } from "@angular/platform-browser";
 import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
-import { NotificationService } from "src/app/services/notification.service";
+import { FCMService } from "src/app/services/fcm.service";
 import { PwaService } from "src/app/services/pwa.service";
 import { Theme, ThemeService } from "src/app/services/theme.service";
 
@@ -23,7 +23,7 @@ export class MenuComponent {
 
 	constructor(
 		private breakpointObserver: BreakpointObserver,
-		private _notificationService: NotificationService,
+		private _FCMService: FCMService,
 		private _pwaService: PwaService,
 		private _themeService: ThemeService
 	) {}
@@ -33,7 +33,7 @@ export class MenuComponent {
 	}
 
 	notify(): void {
-		this._notificationService.send(this.pushMessage);
+		this._FCMService.send(this.pushMessage);
 	}
 
 	install(): void {
