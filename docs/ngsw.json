@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1683135658897,
+  "timestamp": 1683185602567,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -14,7 +14,7 @@
         "/favicon.ico",
         "/firebase-messaging-sw.js",
         "/index.html",
-        "/main.55283d23ca53efea.js",
+        "/main.10c9dce83b1c8770.js",
         "/manifest.webmanifest",
         "/polyfills.213108041e335b6e.js",
         "/runtime.3c9e51f3480d07a9.js",
@@ -29,7 +29,7 @@
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "cacheQueryOptions": {
         "ignoreVary": true
       },
@@ -50,7 +50,7 @@
   ],
   "dataGroups": [
     {
-      "name": "api-performance",
+      "name": "api-freshness",
       "patterns": [
         "https:\\/\\/jservice\\.io\\/api\\/random[^/]*[^/]*"
       ],
@@ -77,8 +77,8 @@
     "/assets/ios-menu-btn.png": "85935a3142fbdca3ebd69db254792588e3c48b13",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "/firebase-messaging-sw.js": "e4ad95770a00d391f064501cbae87b29854d3755",
-    "/index.html": "e186c5fee623564992484c815196967a0b0a43aa",
-    "/main.55283d23ca53efea.js": "da102410c435b0c462108481a2670806d9f23e06",
+    "/index.html": "43bd893465d07ae636be82455ab59a179607b537",
+    "/main.10c9dce83b1c8770.js": "caf6605b8d0c19fc337a6f914fd1ed8d28ad11a4",
     "/manifest.webmanifest": "609d607f4a5b2952ec75b0c4b3f41f3f70c2c53c",
     "/polyfills.213108041e335b6e.js": "368cb30753f5744fa8e0773c1f35bd998b300af5",
     "/runtime.3c9e51f3480d07a9.js": "2d3ce152335575754f242299a232e9bf773ed11f",

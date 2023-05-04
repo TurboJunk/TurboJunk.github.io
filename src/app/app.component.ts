@@ -26,7 +26,7 @@ export class AppComponent {
 				)
 				.subscribe(() =>
 					this._snackBar
-						.open("Newer version of the app is available!", "UPDATE", { duration: 3000 })
+						.open("Newer version of the app is available!", "UPDATE", { duration: 5000 })
 						.onAction()
 						.subscribe(() => document.location.reload())
 				);

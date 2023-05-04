@@ -17,13 +17,14 @@
           "https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap",
           "https://fonts.googleapis.com/icon?family=Material+Icons",
           "https://material.angular.io/assets/img/examples/shiba1.jpg"
+		  
         ]
       }
     },
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "resources": {
         "files": [
           "/assets/**",
@@ -34,7 +35,7 @@
   ],
   "dataGroups": [
     {
-      "name": "api-performance",
+      "name": "api-freshness",
       "urls": [
         "https://jservice.io/api/random**"
       ],

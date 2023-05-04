@@ -1,8 +1,6 @@
-import { BreakpointObserver } from "@angular/cdk/layout";
 import { Platform } from "@angular/cdk/platform";
 import { Injectable } from "@angular/core";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
-import { take, timer } from "rxjs";
 import { PromptComponent } from "../components/prompt/prompt.component";
 
 @Injectable({
@@ -13,8 +11,7 @@ export class PwaService {
 
 	constructor(
 		private _bottomSheet: MatBottomSheet,
-		private _platform: Platform,
-		private _breakpointObserver: BreakpointObserver
+		private _platform: Platform
 	) {}
 
 	initPwaPrompt() {
@@ -24,9 +21,9 @@ export class PwaService {
 	}
 
 	openPromt() {
-		if (this._platform.ANDROID || this._platform.isBrowser) this.openPromptComponent("android");
+		if (this._platform.BLINK || this._platform.ANDROID) this.openPromptComponent("android");
 
-		if (this._platform.IOS) this.openPromptComponent("ios");
+		else if (this._platform.SAFARI) this.openPromptComponent("ios");
 	}
 
 	private openPromptComponent(mobileType: "ios" | "android") {
