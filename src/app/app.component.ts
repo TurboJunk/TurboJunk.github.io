@@ -1,11 +1,7 @@
-import { Component, OnInit, Optional } from "@angular/core";
-import { MessagePayload, Messaging, getToken, onMessage } from "@angular/fire/messaging";
+import { Component } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { EMPTY, from, Observable } from "rxjs";
-import { distinctUntilChanged, filter, share, tap } from "rxjs/operators";
-import { environment } from "src/environments/environment";
-import { NotificationService } from "./services/notification.service";
 import { SwUpdate, VersionReadyEvent } from "@angular/service-worker";
+import { distinctUntilChanged, filter } from "rxjs/operators";
 
 @Component({
 	selector: "app-root",

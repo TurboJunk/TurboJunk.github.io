@@ -44,6 +44,7 @@ import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { provideMessaging, getMessaging } from "@angular/fire/messaging";
 import { PromptComponent } from "./components/prompt/prompt.component";
 import { PwaService } from "./services/pwa.service";
+import { RouterModule } from '@angular/router';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
@@ -62,7 +63,7 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
 		PromptComponent,
 	],
 	imports: [
-		BrowserModule,
+		BrowserModule.withServerTransition({ appId: 'serverApp' }),
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
@@ -99,6 +100,7 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
 		MatBottomSheetModule,
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
 		provideMessaging(() => getMessaging()),
+  RouterModule,
 	],
 	providers: [{ provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true }],
 	bootstrap: [AppComponent],
