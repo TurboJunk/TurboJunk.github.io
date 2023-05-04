@@ -25,7 +25,7 @@ export class FCMService {
 						serviceWorkerRegistration,
 						vapidKey: environment.firebase.vapidKey,
 					}).then(token => {
-						console.log("FCM", { token });
+						console.log("FCM", token);
 						this.fcmkey = token;
 					});
 					onMessage(this._messaging, x => this._notificationService.generateNotification(serviceWorkerRegistration, x));
